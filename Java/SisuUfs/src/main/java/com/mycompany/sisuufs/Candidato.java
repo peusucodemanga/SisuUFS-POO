@@ -14,6 +14,8 @@ public class Candidato implements Comparator<Candidato>{
     protected String demanda;
     protected String nome;
     protected String nota;
+    protected int grupo;
+
 
     public Candidato(String [] listaDados){
         dados = listaDados.clone();
@@ -21,6 +23,9 @@ public class Candidato implements Comparator<Candidato>{
         demanda = listaDados[4];
         nome = listaDados[1];
         nota = listaDados[5];
+        /* calculando o grupo em que o candidato estara, sabendo que 400 - 450 -> grupo 0 e 800 - 850 -> grupo 8, 
+        vamos precisar dessa variavel pra dividir os candidatos em grupos e exibir no grafico. */
+        grupo = (int)(Double.parseDouble(nota)/50) - 8; 
     }
 
     public Candidato(){
