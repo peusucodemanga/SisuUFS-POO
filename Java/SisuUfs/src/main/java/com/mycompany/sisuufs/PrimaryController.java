@@ -36,6 +36,7 @@ public class PrimaryController implements Initializable {
     private TextField textField;
 
     protected ListaCandidatos listaDeCandidatos = ListaCandidatos.getInstance();
+    protected ArrayList<Candidato> lista;
     /**
      * Initializes the controller class.
      */
@@ -49,7 +50,7 @@ public class PrimaryController implements Initializable {
         try {
             //Inicializando variaveis uteis
             Scanner varredor = new Scanner (new File (textField.getText()));
-            ArrayList<Candidato> lista = new ArrayList<>();
+            lista = new ArrayList<>();
             String str = ""; // essa string eh a que to botando na tela com o nome de geral
             int [] maiores = new int[7]; // aqui vou usar pra printar bonitinho a galera
             for(int i = 0; i < 7; i++) maiores[i] = 0;
@@ -112,9 +113,18 @@ public class PrimaryController implements Initializable {
             Parent grafico = loader.load();
             //eu preciso dar um jeito de passar o grupo de cada candidato pra outra cena.
             telaGrafico.setTitle("Grafico de aprovados 8000");
-            telaGrafico.setScene(new Scene(grafico));
+            Scene temp = new Scene(grafico);
+            if(lista == null) throw new NullPointerException(); // usando essa excecao pra nao printar um grafico sem nada
+            telaGrafico.setScene(temp);
             telaGrafico.show();
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Exception Dialog");
+            alert.setHeaderText("ERRO! ARQUIVO NAO CARREGADO!");
+            alert.setContentText("Nenhum arquivo foi carregado, impossível gerar o gráfico.");
+            alert.showAndWait();
+        }
+        catch(Exception e ){
             e.printStackTrace();
         }
     } 
