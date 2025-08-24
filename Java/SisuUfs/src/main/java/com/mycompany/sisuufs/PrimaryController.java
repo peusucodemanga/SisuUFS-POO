@@ -34,6 +34,8 @@ public class PrimaryController implements Initializable {
     private TextArea textArea;
     @FXML
     private TextField textField;
+
+    protected ListaCandidatos listaDeCandidatos = ListaCandidatos.getInstance();
     /**
      * Initializes the controller class.
      */
@@ -75,6 +77,7 @@ public class PrimaryController implements Initializable {
                     } 
                 }
             }
+            listaDeCandidatos.setListaCandidatos(lista);
             str += "\n";
             //Collections.sort(lista, new Candidato()); // -> se precisar ordenar com base nos criterios da prova
             varredor.close();
@@ -105,10 +108,10 @@ public class PrimaryController implements Initializable {
     private void gerarGrafico(ActionEvent event){
         try {
             Stage telaGrafico = new Stage();
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("grafico_intervalos.fxml"));
             Parent grafico = loader.load();
-            telaGrafico.setTitle("Receba.");
+            //eu preciso dar um jeito de passar o grupo de cada candidato pra outra cena.
+            telaGrafico.setTitle("Grafico de aprovados 8000");
             telaGrafico.setScene(new Scene(grafico));
             telaGrafico.show();
         } catch (Exception e) {

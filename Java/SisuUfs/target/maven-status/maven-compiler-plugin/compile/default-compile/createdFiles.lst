@@ -1,5 +1,6 @@
 com\mycompany\sisuufs\App.class
 com\mycompany\sisuufs\Grafico_intervalosController.class
 module-info.class
+com\mycompany\sisuufs\ListaCandidatos.class
 com\mycompany\sisuufs\PrimaryController.class
 com\mycompany\sisuufs\Candidato.class
