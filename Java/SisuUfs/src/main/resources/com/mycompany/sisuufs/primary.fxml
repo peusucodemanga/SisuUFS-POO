@@ -22,7 +22,7 @@
             </TextField>
          </center>
          <left>
-            <Button mnemonicParsing="false" onAction="#gerarGrafico" text="Gerar Grafico" BorderPane.alignment="CENTER" />
+            <Button fx:id="botaoMudarTela" disable="true" mnemonicParsing="false" onAction="#mudarTela1" text="Mudar tela" BorderPane.alignment="CENTER" />
          </left>
       </BorderPane>
    </children>

@@ -14,6 +14,7 @@ public class ListaCandidatos{
     
     private static ListaCandidatos instance;
     private ArrayList<Candidato> lista;
+    private String campus;
 
     private ListaCandidatos(){
 
@@ -29,5 +30,11 @@ public class ListaCandidatos{
     }
     public void setListaCandidatos(ArrayList<Candidato> lista){ 
         this.lista = lista; 
+    }
+    public String getCampus() {
+        return campus;
+    }
+    public void setCampus(String campus) {
+        this.campus = campus;
     }
 }

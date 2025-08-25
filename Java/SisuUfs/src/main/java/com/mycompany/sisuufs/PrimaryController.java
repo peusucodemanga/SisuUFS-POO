@@ -15,10 +15,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -34,6 +36,8 @@ public class PrimaryController implements Initializable {
     private TextArea textArea;
     @FXML
     private TextField textField;
+    @FXML
+    private Button botaoMudarTela;
 
     protected ListaCandidatos listaDeCandidatos = ListaCandidatos.getInstance();
     protected ArrayList<Candidato> lista;
@@ -78,7 +82,7 @@ public class PrimaryController implements Initializable {
                     } 
                 }
             }
-            listaDeCandidatos.setListaCandidatos(lista);
+            listaDeCandidatos.setListaCandidatos(lista); //aqui eu to passando a minha lista tbm pra cena com o grafico
             str += "\n";
             //Collections.sort(lista, new Candidato()); // -> se precisar ordenar com base nos criterios da prova
             varredor.close();
@@ -92,6 +96,7 @@ public class PrimaryController implements Initializable {
                 str+= "\n";
             }
             textArea.setText(str);
+            botaoMudarTela.setDisable(false);
         }
         catch (FileNotFoundException e) { //telinha de erro :D
             Alert alert = new Alert(AlertType.ERROR);
@@ -106,26 +111,19 @@ public class PrimaryController implements Initializable {
     }
 
     @FXML
-    private void gerarGrafico(ActionEvent event){
+    private void mudarTela1(ActionEvent event){
         try {
-            Stage telaGrafico = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("grafico_intervalos.fxml"));
-            Parent grafico = loader.load();
-            //eu preciso dar um jeito de passar o grupo de cada candidato pra outra cena.
-            telaGrafico.setTitle("Grafico de aprovados 8000");
-            Scene temp = new Scene(grafico);
-            if(lista == null) throw new NullPointerException(); // usando essa excecao pra nao printar um grafico sem nada
-            telaGrafico.setScene(temp);
-            telaGrafico.show();
-        } catch (NullPointerException e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Exception Dialog");
-            alert.setHeaderText("ERRO! ARQUIVO NAO CARREGADO!");
-            alert.setContentText("Nenhum arquivo foi carregado, impossível gerar o gráfico.");
-            alert.showAndWait();
-        }
-        catch(Exception e ){
+            Parent tela2 = FXMLLoader.load(getClass().getResource("secondary.fxml"));
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(tela2,640,480);
+            stage.setScene(scene);
+            stage.setTitle ("Opções de análise 8000");
+            stage.setMinWidth(450);
+            stage.setMinHeight(350);
+            stage.show();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    } 
+    }
+ 
 }

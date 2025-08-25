@@ -25,8 +25,7 @@ public class Grafico_intervalosController implements Initializable {
 
     @FXML
     private BarChart<String, Integer> graficoIntervalos;
-
-    protected ListaCandidatos listaDeCandidatos = ListaCandidatos.getInstance();
+    private ListaCandidatos listaDeCandidatos = ListaCandidatos.getInstance();
     
     /**
      * Initializes the controller class.
@@ -40,12 +39,21 @@ public class Grafico_intervalosController implements Initializable {
             series1.setName("Quantidade de candidatos");
             // daqui pra baixo eh setando as propriedades do grafico
             ArrayList<Candidato> lCandidatos = listaDeCandidatos.getListaCandidatos();
+            String campusFiltrar = listaDeCandidatos.getCampus();
             int [] qntCandidatos = new int [9];
             for(int i = 0 ; i < 9; i++){
                 qntCandidatos[i] = 0;
             }
-            for(Candidato c : lCandidatos){
-                qntCandidatos[c.grupo]++;
+            if(!campusFiltrar.equals("TODOS")){
+                for(Candidato c : lCandidatos){
+                    if(c.dados[3].equals(campusFiltrar))
+                        qntCandidatos[c.grupo]++;
+                }
+            }
+            else{
+                for(Candidato c : lCandidatos){
+                    qntCandidatos[c.grupo]++;
+                }
             }
             for(int i = 0 ; i < 9; i++){
                 int limInferior = 400 + 50*i, limSuperior = 400 + 50*(i+1);
@@ -69,6 +77,8 @@ public class Grafico_intervalosController implements Initializable {
                 data.setNode(painel);
             }
             //graficoIntervalos.setCategoryGap(20);
+            if(campusFiltrar.equals("TODOS")) graficoIntervalos.setTitle("Distribuição de aprovados por intervalo");
+            else graficoIntervalos.setTitle("Distribuição de aprovados por intervalo no campus : " + campusFiltrar);
             graficoIntervalos.getData().addAll(series1);
         } catch (NullPointerException e) {
         }
