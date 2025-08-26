@@ -15,7 +15,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -41,6 +40,7 @@ public class PrimaryController implements Initializable {
     private Button botaoMudarTela;
     @FXML
     private Button botaoLerArquivo;
+    private boolean janelaAberta = false;
 
     protected ListaCandidatos listaDeCandidatos = ListaCandidatos.getInstance();
     protected ArrayList<Candidato> lista;
@@ -62,6 +62,7 @@ public class PrimaryController implements Initializable {
     private void lerCSV(ActionEvent event) {
         try {
             //Inicializando variaveis uteis
+        if(!janelaAberta){
             Scanner varredor = new Scanner (new File (textField.getText()));
             lista = new ArrayList<>();
             String str = ""; // essa string eh a que to botando na tela com o nome de geral
@@ -105,7 +106,9 @@ public class PrimaryController implements Initializable {
                 str+= "\n";
             }
             textArea.setText(str);
-            botaoMudarTela.setDisable(false);
+            mudarTela1(event);
+            //botaoMudarTela.setDisable(false);
+        }
         }
         catch (FileNotFoundException e) { //telinha de erro :D
             Alert alert = new Alert(AlertType.ERROR);
@@ -122,14 +125,19 @@ public class PrimaryController implements Initializable {
     @FXML
     private void mudarTela1(ActionEvent event){
         try {
+            janelaAberta = true;
             Parent tela2 = FXMLLoader.load(getClass().getResource("secondary.fxml"));
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+            Stage stage = new Stage();
             Scene scene = new Scene(tela2,640,480);
+
             stage.setScene(scene);
             stage.setTitle ("Opções de análise 8000");
             stage.setMinWidth(450);
             stage.setMinHeight(350);
             stage.show();
+            //Coloca o boleano verificador como falso
+            stage.setOnCloseRequest(e -> {janelaAberta = false;});
         } catch (Exception e) {
             e.printStackTrace();
         }
