@@ -12,7 +12,7 @@
       <TextArea fx:id="textArea" editable="false" layoutX="188.0" layoutY="50.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
       <BorderPane layoutX="274.0" layoutY="345.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <right>
-            <Button mnemonicParsing="false" onAction="#lerCSV" text="Ler Arquivo" BorderPane.alignment="CENTER" />
+            <Button fx:id="botaoLerArquivo" mnemonicParsing="false" onAction="#lerCSV" text="Ler Arquivo" BorderPane.alignment="CENTER" />
          </right>
          <center>
             <TextField fx:id="textField" BorderPane.alignment="CENTER">

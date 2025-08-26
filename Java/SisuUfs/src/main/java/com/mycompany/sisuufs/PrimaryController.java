@@ -23,6 +23,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 /**
  * FXML Controller class
@@ -38,6 +39,8 @@ public class PrimaryController implements Initializable {
     private TextField textField;
     @FXML
     private Button botaoMudarTela;
+    @FXML
+    private Button botaoLerArquivo;
 
     protected ListaCandidatos listaDeCandidatos = ListaCandidatos.getInstance();
     protected ArrayList<Candidato> lista;
@@ -46,7 +49,13 @@ public class PrimaryController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        botaoLerArquivo = new Button();
+        botaoLerArquivo.setOnAction((actionEvent) -> {
+            lerCSV(actionEvent);
+        });
+        textField.setOnKeyPressed((keyEvent) -> {
+            if(keyEvent.getCode() == KeyCode.ENTER) botaoLerArquivo.fire();
+        });
     }    
     
     @FXML
