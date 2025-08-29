@@ -1,8 +1,8 @@
 import sys
 from PyQt5 import QtWidgets, QtGui
 import csv
-
 from JanelaPrincipal import Ui_MainWindow
+from JanelaSecundaria import Ui_JanelaSecundaria
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     aprovados = []
@@ -11,6 +11,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
         self.setWindowTitle("Leitor de CSV 8000")
+
+
+    def abrirTlSecundaria(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_JanelaSecundaria()
+        self.ui.setupUi(self.window)
+        self.window.show()
+
 
     def lerArquivo(self):
         arquivo = self.entrada.text()
@@ -41,6 +49,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.tableWidget.setItem(i, j, item)
                         j += 1
                     i += 1
+                
+                self.abrirTlSecundaria()
 
         except FileNotFoundError:
             msg = QtWidgets.QMessageBox()
