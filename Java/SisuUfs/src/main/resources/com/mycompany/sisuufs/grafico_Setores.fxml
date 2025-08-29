@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/24.0.1" fx:controller="com.mycompany.sisuufs.Grafico_SetoresController">
+   <children>
+      <PieChart fx:id="Pizza" layoutX="81.0" layoutY="16.0" prefHeight="368.0" prefWidth="438.0" title="Gráfico de setores " />
+   </children>
+</AnchorPane>

@@ -1,7 +1,9 @@
 com\mycompany\sisuufs\App.class
 com\mycompany\sisuufs\Grafico_intervalosController.class
+com\mycompany\sisuufs\Centros.class
+com\mycompany\sisuufs\PrimaryController.class
 module-info.class
+com\mycompany\sisuufs\Grafico_SetoresController.class
 com\mycompany\sisuufs\SecondaryController.class
 com\mycompany\sisuufs\ListaCandidatos.class
-com\mycompany\sisuufs\PrimaryController.class
 com\mycompany\sisuufs\Candidato.class

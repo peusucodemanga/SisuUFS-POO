@@ -6,6 +6,7 @@ package com.mycompany.sisuufs;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.TreeSet;
 
@@ -34,8 +35,8 @@ public class SecondaryController implements Initializable {
     private Button botaoMudarTela2;
     @FXML
     private Button botaoGerarGrafico;
-    private boolean janelaAberta = false;
     private Stage telaGrafico;
+    private Stage telaGraficoSet;
 
     protected ListaCandidatos listaDeCandidatos = ListaCandidatos.getInstance(); // vou usar pra gerar a choicebox com os campus
 
@@ -56,7 +57,12 @@ public class SecondaryController implements Initializable {
             boxCampus.getItems().add(s);
         }
     }    
-    
+    @FXML
+    private void testepapai(ActionEvent event){
+            Centros teste = new Centros();
+            HashMap<String, Integer> centrosHash = teste.separacaoCentro();
+            centrosHash.forEach((key, value) -> System.out.println(key + " : " + value));
+    }
     // @FXML
     // private void mudarTela2(ActionEvent event){
     //     try {
@@ -90,12 +96,7 @@ public class SecondaryController implements Initializable {
             //só abre uma janela nova se não tiver uma aberta.
             if (telaGrafico == null || !telaGrafico.isShowing()) {
                 telaGrafico = new Stage();
-                janelaAberta = true;
             }
-            //atualizando variavel de verificação
-            telaGrafico.setOnCloseRequest(e -> {
-                janelaAberta = false;
-            });
     
             
             FXMLLoader loader = new FXMLLoader(getClass().getResource("grafico_intervalos.fxml"));
@@ -104,16 +105,42 @@ public class SecondaryController implements Initializable {
             telaGrafico.setTitle("Grafico de aprovados filtrados");
             Scene temp = new Scene(grafico);
             
-            //atualizando a variavel se a aba for fechada
-            telaGrafico.setOnCloseRequest(e -> {
-            janelaAberta = false;
-            });
             
             //if(lista == null) throw new NullPointerException(); // usando essa excecao pra nao printar um grafico sem nada
             telaGrafico.setScene(temp);
             telaGrafico.setMinWidth(750);
             telaGrafico.setMinHeight(600);
             telaGrafico.show();
+
+        } catch (NullPointerException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Exception Dialog");
+            alert.setHeaderText("ERRO! ARQUIVO NAO CARREGADO!");
+            alert.setContentText("Nenhum arquivo foi carregado, impossível gerar o gráfico.");
+            alert.showAndWait();
+        }
+        catch(Exception e ){
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void gerarGraficoSet(ActionEvent event){
+        try {
+            //só abre uma janela nova se não tiver uma aberta.
+            if (telaGraficoSet == null || !telaGraficoSet.isShowing()) telaGraficoSet = new Stage();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("grafico_Setores.fxml"));
+            Parent graficoSet = loader.load();
+
+            telaGraficoSet.setTitle("Grafico de setores");
+            Scene temp = new Scene(graficoSet);
+            
+            telaGraficoSet.setScene(temp);
+            telaGraficoSet.setMinHeight(600);
+            telaGraficoSet.setMinWidth(750);
+
+            telaGraficoSet.show();
 
         } catch (NullPointerException e) {
             Alert alert = new Alert(AlertType.ERROR);
