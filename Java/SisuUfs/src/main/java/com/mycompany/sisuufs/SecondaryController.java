@@ -6,7 +6,6 @@ package com.mycompany.sisuufs;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.TreeSet;
 
@@ -20,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 /**
  * FXML Controller class
@@ -35,6 +35,8 @@ public class SecondaryController implements Initializable {
     private Button botaoMudarTela2;
     @FXML
     private Button botaoGerarGrafico;
+    @FXML
+    private Label textoNotas;
     private Stage telaGrafico;
     private Stage telaGraficoSet;
 
@@ -59,9 +61,22 @@ public class SecondaryController implements Initializable {
     }    
     @FXML
     private void testepapai(ActionEvent event){
-            Centros teste = new Centros();
-            HashMap<String, Integer> centrosHash = teste.separacaoCentro();
-            centrosHash.forEach((key, value) -> System.out.println(key + " : " + value));
+        ArrayList<Candidato> lCandidatos = listaDeCandidatos.getListaCandidatos();
+        double maior = 0, menor = 900;
+        Candidato candMaior = null,candMenor = null;
+        for(Candidato c : lCandidatos){
+            double nota = Double.parseDouble(c.nota);
+            if(nota > maior) {
+                maior = nota;
+                candMaior = c;
+            } 
+            if(nota < menor){
+                menor = nota;
+                candMenor = c;
+            }
+        }
+        textoNotas.setText("A maior nota é: " + maior + " do curso " + candMaior.curso + " em " + candMaior.dados[3] + "\n" +
+        "A menor nota é: " + menor + " do curso " + candMenor.curso + " em " + candMenor.dados[3]);
     }
     // @FXML
     // private void mudarTela2(ActionEvent event){
