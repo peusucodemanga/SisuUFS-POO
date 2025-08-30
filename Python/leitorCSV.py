@@ -1,24 +1,33 @@
 import sys
 from PyQt5 import QtWidgets, QtGui
+from PyQt5.QtCore import pyqtSignal
 import csv
 from JanelaPrincipal import Ui_MainWindow
 from JanelaSecundaria import Ui_JanelaSecundaria
 
+class JanelaSecundaria(QtWidgets.QMainWindow, Ui_JanelaSecundaria):
+    def __init__(self, *args, obj=None, **kwargs):
+        super(JanelaSecundaria, self).__init__(*args, **kwargs)
+        self.setupUi(self)
+        self.setWindowTitle("Pagina de opcoes")
+
+    def acharMaxMin(self):
+        maiorNota=(max(aprovados, key=lambda a: float(a["Nota"])))
+        menorNota=(min(aprovados, key=lambda a: float(a["Nota"])))
+        Nota=f"A maior nota foi:{maiorNota["Nota"]} Curso: {maiorNota["Curso"]} Campus: {maiorNota["Campus"]}\n A menor nota foi:{menorNota["Nota"]} Curso: {menorNota["Curso"]} Campus:{menorNota["Campus"]}\n"
+        self.LabelNotas.setText(Nota)
+    
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    aprovados = []
+    dados = pyqtSignal(list)
 
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
         self.setWindowTitle("Leitor de CSV 8000")
 
-
     def abrirTlSecundaria(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_JanelaSecundaria()
-        self.ui.setupUi(self.window)
+        self.window = JanelaSecundaria()
         self.window.show()
-
 
     def lerArquivo(self):
         arquivo = self.entrada.text()
@@ -26,6 +35,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             with open(arquivo, 'r', newline='') as file:
                 leitorCSV = csv.reader(file)
                 Cabecalho = next(leitorCSV)
+                global aprovados 
                 aprovados = []
 
                 for linha in leitorCSV:
@@ -49,7 +59,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.tableWidget.setItem(i, j, item)
                         j += 1
                     i += 1
-                
+    
                 self.abrirTlSecundaria()
 
         except FileNotFoundError:
@@ -63,7 +73,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def slotLerCSV(self):
         self.lerArquivo()
         
-
         
 def main():            
     app = QtWidgets.QApplication(sys.argv)
