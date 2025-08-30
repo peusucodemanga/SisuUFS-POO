@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,8 +22,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 /**
@@ -33,11 +37,9 @@ public class PrimaryController implements Initializable {
 
 
     @FXML
-    private TextArea textArea;
+    private TableView<Candidato> tableView = new TableView<Candidato>();
     @FXML
     private TextField textField;
-    @FXML
-    private Button botaoMudarTela;
     @FXML
     private Button botaoLerArquivo;
     private boolean janelaAberta = false;
@@ -62,53 +64,35 @@ public class PrimaryController implements Initializable {
     private void lerCSV(ActionEvent event) {
         try {
             //Inicializando variaveis uteis
-        if(!janelaAberta){
-            Scanner varredor = new Scanner (new File (textField.getText()));
-            lista = new ArrayList<>();
-            String str = ""; // essa string eh a que to botando na tela com o nome de geral
-            int [] maiores = new int[7]; // aqui vou usar pra printar bonitinho a galera
-            for(int i = 0; i < 7; i++) maiores[i] = 0;
+            if(!janelaAberta){
+                Scanner varredor = new Scanner (new File (textField.getText()));
+                lista = new ArrayList<>();
 
-            //aqui acontece a leitura do csv
-            while (varredor.hasNext()){
-                String linha = varredor.nextLine();
-                Candidato aux;
-                String [] dadosAux = linha.split(",");
+                //aqui acontece a leitura do csv
+                while (varredor.hasNext()){
+                    String linha = varredor.nextLine();
+                    Candidato aux;
+                    String [] dadosAux = linha.split(",");
 
-                if(linha.charAt(0) != 'I'){
-                    aux = new Candidato(dadosAux);
-                    lista.add(aux);
-                    int i = 0;
-                    for(String s : dadosAux){
-                        if(s.length() > maiores[i]) maiores[i] = s.length();
-                        i++;
+                    if(linha.charAt(0) != 'I'){
+                        aux = new Candidato(dadosAux);
+                        lista.add(aux);
                     }
-                }
-                else {
-                    for(int i = 0; i < dadosAux.length; i++){
-                        if(i <=2) str += dadosAux[i] + "\t\t\t\t\t\t\t";
-                        else if(i >= dadosAux.length - 3) str += dadosAux[i] + "\t\t";
-                        else str += dadosAux[i] + "\t\t\t";
-                    } 
-                }
+                    else{
+                        tableView.getColumns().clear();
+                        for(String str : dadosAux){
+                            TableColumn<Candidato, String> colunaNome = new TableColumn<>(str);
+                            colunaNome.setCellValueFactory(new PropertyValueFactory<>(str.toLowerCase()));
+                            tableView.getColumns().add(colunaNome);
+                        }
+                    }
+                }   
+                listaDeCandidatos.setListaCandidatos(lista); //aqui eu to passando a minha lista tbm pra cena com o grafico
+                ObservableList<Candidato> data = FXCollections.observableArrayList(lista);
+                tableView.setItems(data);
+                varredor.close();
+                mudarTela1(event);
             }
-            listaDeCandidatos.setListaCandidatos(lista); //aqui eu to passando a minha lista tbm pra cena com o grafico
-            str += "\n";
-            //Collections.sort(lista, new Candidato()); // -> se precisar ordenar com base nos criterios da prova
-            varredor.close();
-            for(Candidato c : lista){
-                int i = 0;
-                for(String s : c.dados){
-                    String formatada = String.format("%" + maiores[i] + "s",s);
-                    i++;
-                    str += formatada + "        ";
-                }
-                str+= "\n";
-            }
-            textArea.setText(str);
-            mudarTela1(event);
-            //botaoMudarTela.setDisable(false);
-        }
         }
         catch (FileNotFoundException e) { //telinha de erro :D
             Alert alert = new Alert(AlertType.ERROR);
@@ -122,7 +106,6 @@ public class PrimaryController implements Initializable {
         }
     }
 
-    @FXML
     private void mudarTela1(ActionEvent event){
         try {
             janelaAberta = true;
@@ -134,7 +117,7 @@ public class PrimaryController implements Initializable {
             stage.setScene(scene);
             stage.setTitle ("Opções de análise 8000");
             stage.setMinWidth(450);
-            stage.setMinHeight(350);
+            stage.setMinHeight(450);
             stage.show();
             //Coloca o boleano verificador como falso
             stage.setOnCloseRequest(e -> {janelaAberta = false;});

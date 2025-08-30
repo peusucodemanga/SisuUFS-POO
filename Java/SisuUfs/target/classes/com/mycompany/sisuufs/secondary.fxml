@@ -13,7 +13,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.sisuufs.SecondaryController">
    <children>
-      <GridPane prefHeight="425.0" prefWidth="600.0">
+      <GridPane prefHeight="425.0" prefWidth="600.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -76,7 +76,10 @@
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                <center>
-                  <Label fx:id="textoNotas" BorderPane.alignment="CENTER" />
+                  <Label fx:id="textoNotas" BorderPane.alignment="CENTER">
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding></Label>
                </center>
                <top>
                   <Button mnemonicParsing="false" onAction="#testepapai" prefHeight="26.0" prefWidth="219.0" text="Consultar a maior e menor notas" BorderPane.alignment="CENTER">

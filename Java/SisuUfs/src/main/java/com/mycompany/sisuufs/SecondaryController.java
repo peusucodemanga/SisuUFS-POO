@@ -53,7 +53,7 @@ public class SecondaryController implements Initializable {
         boxCampus.getItems().add("TODOS");
         boxCampus.getSelectionModel().selectFirst();
         for(Candidato c : lCandidatos){
-            sCampus.add(c.dados[3]);
+            sCampus.add(c.campus);
         }
         for (String s : sCampus) {
             boxCampus.getItems().add(s);
@@ -65,18 +65,17 @@ public class SecondaryController implements Initializable {
         double maior = 0, menor = 900;
         Candidato candMaior = null,candMenor = null;
         for(Candidato c : lCandidatos){
-            double nota = Double.parseDouble(c.nota);
-            if(nota > maior) {
-                maior = nota;
+            if(c.nota > maior) {
+                maior = c.nota;
                 candMaior = c;
             } 
-            if(nota < menor){
-                menor = nota;
+            if(c.nota < menor){
+                menor = c.nota;
                 candMenor = c;
             }
         }
-        textoNotas.setText("A maior nota é: " + maior + " do curso " + candMaior.curso + " em " + candMaior.dados[3] + "\n" +
-        "A menor nota é: " + menor + " do curso " + candMenor.curso + " em " + candMenor.dados[3]);
+        textoNotas.setText("A maior nota é: " + maior + " do curso " + candMaior.curso + " em " + candMaior.campus + "\n" +
+        "A menor nota é: " + menor + " do curso " + candMenor.curso + " em " + candMenor.campus);
     }
     // @FXML
     // private void mudarTela2(ActionEvent event){
@@ -123,8 +122,8 @@ public class SecondaryController implements Initializable {
             
             //if(lista == null) throw new NullPointerException(); // usando essa excecao pra nao printar um grafico sem nada
             telaGrafico.setScene(temp);
-            telaGrafico.setMinWidth(750);
-            telaGrafico.setMinHeight(600);
+            telaGrafico.setMinWidth(550);
+            telaGrafico.setMinHeight(550);
             telaGrafico.show();
 
         } catch (NullPointerException e) {
@@ -152,8 +151,8 @@ public class SecondaryController implements Initializable {
             Scene temp = new Scene(graficoSet);
             
             telaGraficoSet.setScene(temp);
-            telaGraficoSet.setMinHeight(600);
-            telaGraficoSet.setMinWidth(750);
+            telaGraficoSet.setMinHeight(400);
+            telaGraficoSet.setMinWidth(400);
 
             telaGraficoSet.show();
 

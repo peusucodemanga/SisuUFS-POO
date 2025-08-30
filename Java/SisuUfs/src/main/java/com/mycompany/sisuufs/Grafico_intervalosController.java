@@ -46,7 +46,7 @@ public class Grafico_intervalosController implements Initializable {
             }
             if(!campusFiltrar.equals("TODOS")){
                 for(Candidato c : lCandidatos){
-                    if(c.dados[3].equals(campusFiltrar))
+                    if(c.campus.equals(campusFiltrar))
                         qntCandidatos[c.grupo]++;
                 }
             }
@@ -57,6 +57,7 @@ public class Grafico_intervalosController implements Initializable {
             }
             for(int i = 0 ; i < 9; i++){
                 int limInferior = 400 + 50*i, limSuperior = 400 + 50*(i+1);
+                if(i == 8) limSuperior = 900;
                 String aux = "";
                 aux += Integer.toString(limInferior) + " - " + Integer.toString(limSuperior);
                 series1.getData().add(new XYChart.Data<>(aux,qntCandidatos[i]));
