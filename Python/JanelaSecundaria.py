@@ -32,9 +32,9 @@ class Ui_JanelaSecundaria(object):
         font.setPointSize(11)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
-        self.pushButton = QtWidgets.QPushButton(self.groupBox)
-        self.pushButton.setGeometry(QtCore.QRect(500, 10, 91, 31))
-        self.pushButton.setObjectName("pushButton")
+        self.GerarGraficoCol = QtWidgets.QPushButton(self.groupBox)
+        self.GerarGraficoCol.setGeometry(QtCore.QRect(500, 10, 91, 31))
+        self.GerarGraficoCol.setObjectName("GerarGraficoCol")
         self.comboBox = QtWidgets.QComboBox(self.groupBox)
         self.comboBox.setGeometry(QtCore.QRect(360, 10, 91, 31))
         self.comboBox.setObjectName("comboBox")
@@ -55,9 +55,9 @@ class Ui_JanelaSecundaria(object):
         font.setPointSize(11)
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
-        self.pushButton_2 = QtWidgets.QPushButton(self.groupBox_2)
-        self.pushButton_2.setGeometry(QtCore.QRect(500, 10, 91, 31))
-        self.pushButton_2.setObjectName("pushButton_2")
+        self.GerarGraficoSet = QtWidgets.QPushButton(self.groupBox_2)
+        self.GerarGraficoSet.setGeometry(QtCore.QRect(500, 10, 91, 31))
+        self.GerarGraficoSet.setObjectName("GerarGraficoSet")
         self.groupBox_3 = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox_3.setGeometry(QtCore.QRect(80, 310, 601, 111))
         self.groupBox_3.setObjectName("groupBox_3")
@@ -89,6 +89,7 @@ class Ui_JanelaSecundaria(object):
 
         self.retranslateUi(JanelaSecundaria)
         self.BotaoExibirNotas.clicked.connect(JanelaSecundaria.acharMaxMin) # type: ignore
+        self.GerarGraficoCol.clicked.connect(JanelaSecundaria.graficoColunas) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(JanelaSecundaria)
 
     def retranslateUi(self, JanelaSecundaria):
@@ -96,7 +97,7 @@ class Ui_JanelaSecundaria(object):
         JanelaSecundaria.setWindowTitle(_translate("JanelaSecundaria", "MainWindow"))
         self.groupBox.setTitle(_translate("JanelaSecundaria", "Opção 1"))
         self.label_2.setText(_translate("JanelaSecundaria", "Gráfico de coluna sobre as notas do campus"))
-        self.pushButton.setText(_translate("JanelaSecundaria", "Gerar Gráfico"))
+        self.GerarGraficoCol.setText(_translate("JanelaSecundaria", "Gerar Gráfico"))
         self.comboBox.setItemText(0, _translate("JanelaSecundaria", "TODOS"))
         self.comboBox.setItemText(1, _translate("JanelaSecundaria", "ARACAJU"))
         self.comboBox.setItemText(2, _translate("JanelaSecundaria", "CAMPUS DO SERTAO"))
@@ -106,7 +107,7 @@ class Ui_JanelaSecundaria(object):
         self.comboBox.setItemText(6, _translate("JanelaSecundaria", "SAO CRISTOVAO"))
         self.groupBox_2.setTitle(_translate("JanelaSecundaria", "Opção 2"))
         self.label_3.setText(_translate("JanelaSecundaria", "Gráfico de setores da quantidade de pessoas por centro"))
-        self.pushButton_2.setText(_translate("JanelaSecundaria", "Gerar Gráfico"))
+        self.GerarGraficoSet.setText(_translate("JanelaSecundaria", "Gerar Gráfico"))
         self.groupBox_3.setTitle(_translate("JanelaSecundaria", "Opção 3"))
         self.BotaoExibirNotas.setText(_translate("JanelaSecundaria", "Exibir a maior e menor nota desse SISU/UFS"))
         self.menuDados_da_lista_de_aprovados.setTitle(_translate("JanelaSecundaria", "Dados da lista de aprovados"))

@@ -4,6 +4,7 @@ from PyQt5.QtCore import pyqtSignal
 import csv
 from JanelaPrincipal import Ui_MainWindow
 from JanelaSecundaria import Ui_JanelaSecundaria
+from GraficoColuna import Ui_GraficoColunas
 
 class JanelaSecundaria(QtWidgets.QMainWindow, Ui_JanelaSecundaria):
     def __init__(self, *args, obj=None, **kwargs):
@@ -16,7 +17,19 @@ class JanelaSecundaria(QtWidgets.QMainWindow, Ui_JanelaSecundaria):
         menorNota=(min(aprovados, key=lambda a: float(a["Nota"])))
         Nota=f"A maior nota foi:{maiorNota["Nota"]} Curso: {maiorNota["Curso"]} Campus: {maiorNota["Campus"]}\n A menor nota foi:{menorNota["Nota"]} Curso: {menorNota["Curso"]} Campus:{menorNota["Campus"]}\n"
         self.LabelNotas.setText(Nota)
+
+    def graficoColunas(self):
+            self.window = GraficoColunas()
+            self.window.show()
+
+class GraficoColunas(QtWidgets.QMainWindow, Ui_GraficoColunas):
+    def __init__(self, *args, obj=None, **kwargs):
+            super(GraficoColunas, self).__init__(*args, **kwargs)
+            self.setupUi(self)
+            self.setWindowTitle("Pagina de opcoes")
+            
     
+
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     dados = pyqtSignal(list)
 
