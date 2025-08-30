@@ -10,7 +10,16 @@ class JanelaSecundaria(QtWidgets.QMainWindow, Ui_JanelaSecundaria):
     def __init__(self, *args, obj=None, **kwargs):
         super(JanelaSecundaria, self).__init__(*args, **kwargs)
         self.setupUi(self)
-        self.setWindowTitle("Pagina de opcoes")
+        self.setWindowTitle("Pagina de opções")
+        #Definindo os campus que podem ser filtrados
+        listaCampus = []
+        for dic in aprovados:
+            listaCampus.append(dic["Campus"])
+        listaCampus = list(set(listaCampus)) #eliminando os repitidos
+        listaCampus.append("TODOS")
+        for campus in listaCampus:
+            self.comboBox.addItem(campus)
+        self.comboBox.setCurrentIndex(listaCampus.index("TODOS")) #definindo por padrao o todos, ou seja, sem nenhum filtro
 
     def acharMaxMin(self):
         maiorNota=(max(aprovados, key=lambda a: float(a["Nota"])))
@@ -20,13 +29,53 @@ class JanelaSecundaria(QtWidgets.QMainWindow, Ui_JanelaSecundaria):
 
     def graficoColunas(self):
             self.window = GraficoColunas()
+            #Daqui pra baixo eh coletando os dados necessarios para o grafico
+            self.qntCandidatos = [0] * 9
+            self.notas = []
+            for i in range(10):
+                if(i == 9):
+                    nota = 400 + 50*(i+1)
+                else: nota = 400 + 50 * i
+                self.notas.append(str(nota))
+
+            self.intervalos = []
+            for i in range(9):
+                aux = self.notas[i] + " - " + self.notas[i+1]
+                self.intervalos.append(aux)
+            
+
+            if(self.comboBox.currentText() != 'TODOS'):
+                for aprovado in aprovados:
+                    print(aprovado)
+                    if(aprovado['Campus'] == self.comboBox.currentText()):
+                        index = (int(float(aprovado['Nota'])/50)) - 8
+                        if(index >= 9): index = 8
+                        self.qntCandidatos[index] += 1
+            else:
+                 for aprovado in aprovados: 
+                        index = (int(float(aprovado['Nota'])/50)) - 8
+                        if(index >= 9): index = 8
+                        self.qntCandidatos[index] += 1                       
+
+            self.dados = dict(zip(self.intervalos,self.qntCandidatos))
+            #Daqui pra baixo eh o setup do grafico
+            self.window.grafico.append(self.dados.values())
+            self.window.series1.append(self.window.grafico)
+            self.window.chart.addSeries(self.window.series1)
+
+            self.window.eixoX.append(self.intervalos)
+            #self.window.chart.setAxisX(self.window.eixoX,self.window.series1) #morreu aqui
+            # self.window.chart.setAxisY(self.window.eixoY,self.window.series1) # nem testei
+            valorMax = max(self.dados.values())
+            self.window.eixoY.setRange(0,valorMax + 0.05*valorMax)        
+                    
             self.window.show()
 
 class GraficoColunas(QtWidgets.QMainWindow, Ui_GraficoColunas):
     def __init__(self, *args, obj=None, **kwargs):
             super(GraficoColunas, self).__init__(*args, **kwargs)
             self.setupUi(self)
-            self.setWindowTitle("Pagina de opcoes")
+            self.setWindowTitle("Gráfico de Colunas")
             
     
 
