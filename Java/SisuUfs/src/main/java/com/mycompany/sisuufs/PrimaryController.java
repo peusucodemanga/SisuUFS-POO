@@ -6,6 +6,7 @@ package com.mycompany.sisuufs;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -65,7 +66,9 @@ public class PrimaryController implements Initializable {
         try {
             //Inicializando variaveis uteis
             if(!janelaAberta){
-                Scanner varredor = new Scanner (new File (textField.getText()));
+                String nomeArq = textField.getText();
+                Scanner varredor = new Scanner (new File (nomeArq));
+                if(!nomeArq.contains(".csv")) throw new IOException();
                 lista = new ArrayList<>();
 
                 //aqui acontece a leitura do csv
@@ -101,8 +104,19 @@ public class PrimaryController implements Initializable {
             alert.setContentText("Arquivo nao encontrado: " + textField.getText());
             alert.showAndWait();
         }
+        catch (IOException e ){
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Exception Dialog");
+            alert.setHeaderText("IOException");
+            alert.setContentText("O arquivo " + textField.getText() + "\nnão respeita o formato exigido!");
+            alert.showAndWait();
+        }
         catch (Exception e) {
-            System.out.println ("Falha inesperada");
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Exception Dialog");
+            alert.setHeaderText("Falha inesperada");
+            alert.setContentText("O arquivo " + textField.getText() + "\nnão pode ser lido!");
+            alert.showAndWait();
         }
     }
 

@@ -169,8 +169,6 @@ class JanelaSecundaria(QtWidgets.QMainWindow, Ui_JanelaSecundaria):
 
         
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    dados = pyqtSignal(list)
-
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
@@ -185,6 +183,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         try:
             with open(arquivo, 'r', newline='') as file:
                 leitorCSV = csv.reader(file)
+                if (".csv" not in arquivo):
+                    raise IOError("O arquivo não respeita")
                 Cabecalho = next(leitorCSV)
                 global aprovados 
                 aprovados = []
@@ -216,10 +216,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except FileNotFoundError:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Critical)
-            msg.setText("Erro, não consegui achar o arquivo :(\n")
+            msg.setText("Erro, não consegui achar o arquivo " + arquivo + " :(\n")
             msg.setInformativeText("Tente verificar os diretórios do arquivo e digitar novamente!")
             msg.setWindowTitle("Erro!")
             msg.exec_()
+        except IOError:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+            msg.setText("Erro! O arquivo " + arquivo + "\nnão respeita o formato exigido!\n")
+            msg.setInformativeText("Tente digitar novamente o nome do arquivo!")
+            msg.setWindowTitle("Erro!")
+            msg.exec_()    
 
     def slotLerCSV(self):
         self.lerArquivo()
