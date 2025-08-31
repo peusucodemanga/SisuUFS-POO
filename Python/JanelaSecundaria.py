@@ -83,6 +83,7 @@ class Ui_JanelaSecundaria(object):
         self.retranslateUi(JanelaSecundaria)
         self.BotaoExibirNotas.clicked.connect(JanelaSecundaria.acharMaxMin) # type: ignore
         self.GerarGraficoCol.clicked.connect(JanelaSecundaria.graficoColunas) # type: ignore
+        self.GerarGraficoSet.clicked.connect(JanelaSecundaria.graficoSetores) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(JanelaSecundaria)
 
     def retranslateUi(self, JanelaSecundaria):

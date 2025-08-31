@@ -1,10 +1,24 @@
 import sys
-from PyQt5 import QtWidgets, QtGui
-from PyQt5.QtCore import pyqtSignal
 import csv
+from PyQt5 import QtWidgets, QtGui, QtChart
+from PyQt5.QtGui import QFont,QColor
+from PyQt5.QtCore import pyqtSignal
 from JanelaPrincipal import Ui_MainWindow
 from JanelaSecundaria import Ui_JanelaSecundaria
 from GraficoColuna import Ui_GraficoColunas
+from GraficoSetor import Ui_GraficoSetores
+
+class GraficoSetor(QtWidgets.QMainWindow, Ui_GraficoSetores):
+    def __init__(self, *args, obj=None, **kwargs):
+        super(GraficoSetor, self).__init__(*args, **kwargs)
+        self.setupUi(self)
+        self.setWindowTitle("Gráfico de Setores")
+
+class GraficoColunas(QtWidgets.QMainWindow, Ui_GraficoColunas):
+    def __init__(self, *args, obj=None, **kwargs):
+        super(GraficoColunas, self).__init__(*args, **kwargs)
+        self.setupUi(self)
+        self.setWindowTitle("Gráfico de Colunas")
 
 class JanelaSecundaria(QtWidgets.QMainWindow, Ui_JanelaSecundaria):
     def __init__(self, *args, obj=None, **kwargs):
@@ -46,7 +60,6 @@ class JanelaSecundaria(QtWidgets.QMainWindow, Ui_JanelaSecundaria):
 
             if(self.comboBox.currentText() != 'TODOS'):
                 for aprovado in aprovados:
-                    print(aprovado)
                     if(aprovado['Campus'] == self.comboBox.currentText()):
                         index = (int(float(aprovado['Nota'])/50)) - 8
                         if(index >= 9): index = 8
@@ -71,14 +84,90 @@ class JanelaSecundaria(QtWidgets.QMainWindow, Ui_JanelaSecundaria):
                     
             self.window.show()
 
-class GraficoColunas(QtWidgets.QMainWindow, Ui_GraficoColunas):
-    def __init__(self, *args, obj=None, **kwargs):
-            super(GraficoColunas, self).__init__(*args, **kwargs)
-            self.setupUi(self)
-            self.setWindowTitle("Gráfico de Colunas")
-            
-    
+    def graficoSetores(self):
+        self.window = GraficoSetor()
+        self.centrosDict = {
+            #Colocando todos os centros
+            "CCAA":0,
+            "CCBS":0,
+            "CCET":0,
+            "CCSA":0,
+            "CECH":0,
+            #Colocando todos os campus
+            "CAMPUSLAG":0,
+            "CAMPUSLAR":0,
+            "CAMPUSSER":0,
+            "CAMPUSITA":0,
+        }
 
+        self.CCAA = ["ZOOTECNIA BAC (MATUTINO)","MEDICINA VETERINARIA(INTEGRAL)","ENGENHARIA FLORESTAL (MAT)","ENGENHARIA DE PESCA (VESP)","ENGENHARIA AGRONOMICA (MAT)","ENGENHARIA AGRICOLA (MATUTINO)"]
+        self.CCBS = ["ODONTOLOGIA (INTEGRAL)","NUTRICAO - BAC (INTEGRAL)","MEDICINA (INTEGRAL)","FONOAUDIOLOGIA - BAC (MAT)","FISIOTERAPIA - BAC (MATUTINO)","FISICA MEDICA BAC (VESPERTINO)","FARMACIA (VESPERTINO)","ENFERMAGEM - BAC (INTEGRAL)","EDUCACAO FISICA - LIC (VESP)","EDUCACAO FISICA - BAC (MAT)","ECOLOGIA - BAC. (MATUTINO)","C. BIOLOGICAS - LIC (VESP)","C. BIOLOGICAS - LIC (NOTURNO)","C. BIOLOGICAS - BAC (MATUTINO)"]
+        self.CCET = ["SISTEMAS DE INFORMACAO (NOT)","QUIMICA LIC (NOTURNO)","QUIMICA INDUSTRIAL (MATUTINO)","QUIMICA BAC (VESPERTINO)","MATEMATICA APLICADA BAC (VESP)","MATEMATICA BAC (VESPERTINO)","MATEMATICA LIC (NOTURNO)","MATEMATICA LIC (VESPERTINO)","FISICA-BAC HAB ASTRONOMIA(VES)","FISICA LIC (NOTURNO)","FISICA BAC (VESPERTINO)","ESTATISTICA BAC (NOTURNO)","ENGENHARIA QUIMICA (MATUTINO)","ENGENHARIA MECANICA (MATUTINO)","ENGENHARIA ELETRONICA (MAT)","ENGENHARIA ELETRICA (MATUTINO)","ENGENHARIA DE PRODUCAO (VES)","ENGENHARIA DE MATERIAIS (VESP)","ENGENHARIA DE PETROLEO (MAT)","ENGENHARIA DE COMPUTACAO (VES)","ENGENHARIA DE ALIMENTOS (MAT)","ENGENHARIA CIVIL (VESPERTINO)","ENGENHARIA AMBIENTAL(MATUTINO)","CIENCIAS ATUARIAIS - BAC (NOT)","C. DA COMPUTACAO BAC (VESP)"]
+        self.CCSA = ["TURISMO - BAC (VESPERTINO)","SERVICO SOCIAL BAC (NOTURNO)","SECRETARIADO EXECUTIVO (NOT)","REL. INTERNACIONAIS-BAC(VESP)","DIREITO BAC (VESPERTINO)","DIREITO BAC (NOTURNO)","CIENCIAS ECONOMICAS BAC(VESP)","CIENCIAS ECONOMICAS BAC (NOT","CIENCIAS CONTABEIS BAC (NOT)","BIBLIOTECONOMIA E DOC-BAC(NOT)","ADMINISTRACAO BAC (NOTURNO)","ADMINISTRACAO BAC (VESPERTINO)"]
+        self.CECH = ["TEATRO - LIC (NOTURNO)","PUBLICIDADE E PROPAGANDA (VES)","PSICOLOGIA BAC (VESPERTINO)","PEDAGOGIA LIC (VESPERTINO)","PEDAGOGIA LIC (NOTURNO)","LETRAS ESPANHOL LIC (NOTURNO)","LETRAS INGLES LIC (NOTURNO)","LETRAS PORT-ESPANHOL-LIC(VESP)","LETRAS PORT-FRANCES LIC (NOT)","LETRAS PORT-INGLES LIC (MAT)","LETRAS PORTUGUES LIC (NOTURNO)","LETRAS PORTUGUES LIC(MATUTINO)","JORNALISMO BAC (MATUTINO)","HISTORIA LIC (MATUTINO)","HISTORIA LIC (NOTURNO)","GEOLOGIA - BAC (MATUTINO)","GEOGRAFIA LIC (MATUTINO)","GEOGRAFIA - LIC (NOTURNO)","GEOGRAFIA - BAC (MATUTINO)","FILOSOFIA LIC (NOTURNO)","DESIGN - BAC. (NOTURNO)","CINEMA E AUDIOVISUAL BAC(VESP)","CIENCIAS SOCIAIS BAC (VESP)","CIENCIAS DA RELIGIAO LIC (NOT)","ARTES-LIC EM A. VISUAIS (VESP)"]
+        self.CAMPUSLAG = ["ODONTOLOGIA - BAC (INTEGRAL)","NUTRICAO - BAC (INTEGRAL)","MEDICINA - BAC (INTEGRAL)","FONOAUDIOLOGIA-BAC (INTEGRAL)","FISIOTERAPIA - BAC (INTEGRAL)","FARMACIA - BAC (INTEGRAL)","ENFERMAGEM - BAC (INTEGRAL)"]
+        self.CAMPUSLAR = ["TERAPIA OCUPACIONAL-BAC (INT)","MUSEOLOGIA - BAC (MATUTINO)","DANCA - LIC (MATUTINO)","ARQUITETURA E URBANISMO (INT)","ARQUEOLOGIA - BAC (VESPERTINO)"]
+        self.CAMPUSSER = ["ZOOTECNIA - BACHARELADO (INT)","MEDICINA VETERINARIA-BAC (INT)","ENGENHARIA AGRONOMICA-BAC(INT)","AGROINDUSTRIA - BAC (INT)"]
+        self.CAMPUSITA = ["SISTEMAS DE INFORMACAO (MAT)","QUIMICA - LICENCIATURA (MAT)","PEDAGOGIA - LIC (NOTURNO)","MATEMATICA-LICENCIATURA (VESP)","LETRAS PORTUGUES - LIC (NOT)","GEOGRAFIA - LICENCIATURA(VESP)","FISICA - LICENCIATURA (NOT)","C. BIOLOGICAS - LIC (VESP)","ADMINISTRACAO - BAC (NOTURNO)"]
+
+        for candidato in aprovados :
+            curso = candidato["Curso"]
+            if(curso in self.CCAA):
+                contagemAtual = self.centrosDict.get("CCAA")
+                self.centrosDict.update({"CCAA": 1+contagemAtual})
+
+            if(curso in self.CCBS):
+                contagemAtual = self.centrosDict.get("CCBS")
+                self.centrosDict.update({"CCBS": 1+contagemAtual})
+                
+            if(curso in self.CCET):
+                contagemAtual = self.centrosDict.get("CCET")
+                self.centrosDict.update({"CCET": 1+contagemAtual})
+            
+            if(curso in self.CCSA):
+                contagemAtual = self.centrosDict.get("CCSA")
+                self.centrosDict.update({"CCSA": 1+contagemAtual})
+            
+            if(curso in self.CECH):
+                contagemAtual = self.centrosDict.get("CECH")
+                self.centrosDict.update({"CECH": 1+contagemAtual})
+            
+            if(curso in self.CAMPUSLAG):
+                contagemAtual = self.centrosDict.get("CAMPUSLAG")
+                self.centrosDict.update({"CAMPUSLAG": 1+contagemAtual})
+            
+            if(curso in self.CAMPUSLAR):
+                contagemAtual = self.centrosDict.get("CAMPUSLAR")
+                self.centrosDict.update({"CAMPUSLAR": 1+contagemAtual})
+            
+            if(curso in self.CAMPUSSER):
+                contagemAtual = self.centrosDict.get("CAMPUSSER")
+                self.centrosDict.update({"CAMPUSSER": 1+contagemAtual})
+            
+            if(curso in self.CAMPUSITA):
+                contagemAtual = self.centrosDict.get("CAMPUSITA")
+                self.centrosDict.update({"CAMPUSITA": 1+contagemAtual})
+
+        #plotando grafico 
+        cores = ["#000000","#25083A","#2C0E37","#690375","#CB429F","#D053A8","#D463B0","#D871B7","#DC7EBE"]
+        # :D colocando cor no grafico
+        i=0
+        for centro in self.centrosDict:
+            self.pedaco = QtChart.QPieSlice(centro,self.centrosDict.get(centro))
+            self.window.series.append(self.pedaco)
+            self.pedaco.setLabel(f"{self.centrosDict.get(centro)}")
+            self.window.chart.legend().markers(self.window.series)[i].setLabel(centro)
+            self.pedaco.setColor(QColor(cores[i]))
+            self.pedaco.setLabelFont(QFont("Arial", 12, QFont.Bold))
+            self.pedaco.setLabelColor(QColor("white"))
+            i+=1
+            
+        
+        self.window.series.setLabelsVisible(True)
+        self.window.series.setLabelsPosition(QtChart.QPieSlice.LabelInsideHorizontal)
+        self.window.show()
+
+        
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     dados = pyqtSignal(list)
 

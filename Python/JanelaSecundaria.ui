@@ -242,9 +242,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>GerarGraficoSet</sender>
+   <signal>clicked()</signal>
+   <receiver>JanelaSecundaria</receiver>
+   <slot>graficoSetores()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>625</x>
+     <y>236</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>379</x>
+     <y>259</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>acharMaxMin()</slot>
   <slot>graficoColunas()</slot>
+  <slot>graficoSetores()</slot>
  </slots>
 </ui>

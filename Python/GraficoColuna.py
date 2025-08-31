@@ -7,7 +7,7 @@ class Ui_GraficoColunas(object):
         GraficoColunas.setObjectName("GraficoColunas")
         GraficoColunas.resize(760, 520)
         GraficoColunas.setMinimumSize(QtCore.QSize(760, 520))
-        GraficoColunas.setWindowTitle("Gráfico de aprovados por campus")
+        GraficoColunas.setWindowTitle("Gráfico da nota dos aprovados por campus")
         self.centralwidget = QtWidgets.QWidget(GraficoColunas)
         self.centralwidget.setObjectName("centralwidget")
         #Editar daqui pra baixo, pra mudar o tipo do grafico
