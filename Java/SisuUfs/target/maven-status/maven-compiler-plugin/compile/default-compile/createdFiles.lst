@@ -4,6 +4,7 @@ com\mycompany\sisuufs\Centros.class
 com\mycompany\sisuufs\PrimaryController.class
 module-info.class
 com\mycompany\sisuufs\Grafico_SetoresController.class
+com\mycompany\sisuufs\MainLauncher.class
 com\mycompany\sisuufs\SecondaryController.class
 com\mycompany\sisuufs\ListaCandidatos.class
 com\mycompany\sisuufs\Candidato.class

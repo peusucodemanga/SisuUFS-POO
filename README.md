@@ -25,6 +25,13 @@
 <img style="width:400px;" alt="Janela Open Project" src="./imagensMD/JavaOpenProject.png"> <img src="./imagensMD/JavaPlay.png" style="width:250px" alt="imagem"></img> </img>
 
 &emsp; Logo após abrir o projeto, o botão de reproduzir do aplicativo redireciona para o arquivo de execução de aplicativo, por fim, para executá-lo se faz necessário somente apertar esse botão.
+
+&emsp; Uma forma alternativa de execução, uma vez com o JDK instalado, é, localizar o local do arquivo "SisuUfs-1.0-SNAPSHOT.jar", por meio do caminho: "SisuUFS-POO\Java\SisuUfs\target", abrir o terminal nessa pasta e executá-lo diretamente da linha de comando:
+
+```bash 
+java -jar SisuUfs-1.0-SNAPSHOT.jar
+```
+
 #### Python
 
 &emsp; Já em Python, primeiramente é necessária a instalação do próprio <a href="https://www.python.org/downloads/">Python</a> e as bibliotecas utilizadas podem ser instaladas pela linha de comando:
