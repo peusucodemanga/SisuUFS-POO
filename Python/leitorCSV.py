@@ -8,6 +8,8 @@ from JanelaSecundaria import Ui_JanelaSecundaria
 from GraficoColuna import Ui_GraficoColunas
 from GraficoSetor import Ui_GraficoSetores
 
+aprovados = []
+
 class GraficoSetor(QtWidgets.QMainWindow, Ui_GraficoSetores):
     def __init__(self, *args, obj=None, **kwargs):
         super(GraficoSetor, self).__init__(*args, **kwargs)
@@ -184,10 +186,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             with open(arquivo, 'r', newline='') as file:
                 leitorCSV = csv.reader(file)
                 if (".csv" not in arquivo):
-                    raise IOError("O arquivo não respeita")
+                    raise IOError("O arquivo não respeita o formato")
                 Cabecalho = next(leitorCSV)
-                global aprovados 
-                aprovados = []
 
                 for linha in leitorCSV:
                     aprovado=dict(zip(Cabecalho,linha))
